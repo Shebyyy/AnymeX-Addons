@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "addons": [
+    {
+      "id": "clip",
+      "name": "Clip Recorder",
+      "description": "Save video clips from the player (FFmpeg, stream copy, no re-encode).",
+      "version": "1.0.0",
+      "path": "add-on/clip",
+      "manifest": "add-on/clip/manifest.json",
+      "platforms": [
+        "linux-x64"
+      ]
+    }
+  ]
+}

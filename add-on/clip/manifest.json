@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "id": "clip",
+  "version": "1.0.0",
+  "notes": "FFmpeg n7.1.1, LGPL, remux only",
+  "files": {
+    "linux-x64": {
+      "path": "bin/linux-x64/ffmpeg",
+      "sha256": "d24a9f8ab076493cd7be13eb771d835d6dc8fc5861322dd8fe0041cb25753710",
+      "size": 3574648,
+      "executable": true
+    }
+  }
+}

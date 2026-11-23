@@ -1,0 +1,77 @@
+name: Build Clip add-on binaries
+
+# Builds FFmpeg for every platform and commits the results into
+# add-on/clip/bin/<platform>/ (no GitHub Releases). The app downloads them
+# straight from this repository and verifies the SHA-256 in manifest.json.
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'add-on/clip/build/**'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { target: linux-x64,            os: ubuntu-24.04 }
+          - { target: android-arm64-v8a,    os: ubuntu-24.04 }
+          - { target: android-armeabi-v7a,  os: ubuntu-24.04 }
+          - { target: android-x86_64,       os: ubuntu-24.04 }
+          - { target: windows-x64,          os: ubuntu-24.04 }
+          - { target: macos-arm64,          os: macos-14 }
+          - { target: macos-x64,            os: macos-13 }
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install toolchain (windows cross)
+        if: matrix.target == 'windows-x64'
+        run: sudo apt-get update && sudo apt-get install -y mingw-w64
+      - name: Install NDK (android)
+        if: startsWith(matrix.target, 'android-')
+        uses: nttld/setup-ndk@v1
+        id: ndk
+        with:
+          ndk-version: r27c
+      - name: Build
+        env:
+          TARGET: ${{ matrix.target }}
+          ANDROID_NDK_HOME: ${{ steps.ndk.outputs.ndk-path }}
+        run: bash add-on/clip/build/build-ffmpeg.sh
+      - name: Smoke test (native targets)
+        if: matrix.target == 'linux-x64' || startsWith(matrix.target, 'macos-')
+        run: add-on/clip/bin/${{ matrix.target }}/ffmpeg -version | head -1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: clip-${{ matrix.target }}
+          path: add-on/clip/bin/${{ matrix.target }}/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: _artifacts
+      - name: Place binaries
+        run: |
+          for d in _artifacts/clip-*; do
+            t="${d#_artifacts/clip-}"
+            mkdir -p "add-on/clip/bin/$t"
+            cp -r "$d"/. "add-on/clip/bin/$t/"
+          done
+          chmod +x add-on/clip/bin/*/ffmpeg || true
+      - name: Regenerate manifest and index
+        run: python3 tools/gen_manifest.py
+      - name: Commit
+        run: |
+          git config user.name  "addons-bot"
+          git config user.email "addons-bot@users.noreply.github.com"
+          git add add-on addons.json
+          git diff --cached --quiet || git commit -m "Update clip add-on binaries"
+          git push

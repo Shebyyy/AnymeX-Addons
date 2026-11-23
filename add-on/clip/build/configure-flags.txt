@@ -1,0 +1,16 @@
+--disable-everything
+--disable-doc
+--disable-debug
+--disable-autodetect
+--disable-asm
+--disable-ffplay
+--disable-ffprobe
+--enable-ffmpeg
+--enable-small
+--enable-network
+--enable-protocol=file,pipe,crypto,hls,http,tcp
+--enable-demuxer=hls,mov,matroska,mpegts,mpegtsraw,concat,aac,mp3,ac3,eac3,flac,ogg
+--enable-muxer=mp4,matroska,mpegts,mov,webm,null
+--enable-parser=h264,hevc,aac,aac_latm,ac3,av1,vp9,opus,vorbis,flac,mpegaudio
+--enable-decoder=h264,hevc,aac,aac_latm,ac3,eac3,mp3,mp3float,opus
+--enable-bsf=aac_adtstoasc,h264_mp4toannexb,hevc_mp4toannexb,extract_extradata,null,setts,vp9_superframe
