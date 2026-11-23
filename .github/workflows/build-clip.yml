@@ -12,6 +12,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: build-clip
+  cancel-in-progress: true
+
 jobs:
   build:
     strategy:
@@ -24,7 +28,7 @@ jobs:
           - { target: android-x86_64,       os: ubuntu-24.04 }
           - { target: windows-x64,          os: ubuntu-24.04 }
           - { target: macos-arm64,          os: macos-14 }
-          - { target: macos-x64,            os: macos-13 }
+          - { target: macos-x64,            os: macos-15-intel }
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -52,6 +56,7 @@ jobs:
 
   publish:
     needs: build
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -70,8 +75,9 @@ jobs:
         run: python3 tools/gen_manifest.py
       - name: Commit
         run: |
-          git config user.name  "addons-bot"
-          git config user.email "addons-bot@users.noreply.github.com"
+          git config user.name  "Shebyyy"
+          git config user.email "83452219+Shebyyy@users.noreply.github.com"
           git add add-on addons.json
           git diff --cached --quiet || git commit -m "Update clip add-on binaries"
+          git pull --rebase origin "${GITHUB_REF_NAME}" || true
           git push

@@ -45,7 +45,7 @@ case "$TARGET" in
 esac
 
 ./configure "${FLAGS[@]}" "${EXTRA[@]}"
-make -j"$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo 2)" ffmpeg
+make -j"$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo 2)" "$EXE"
 cp "$EXE" "$OUT/$EXE"
 case "$TARGET" in
   android-*) "$TC/bin/llvm-strip" "$OUT/$EXE" ;;
