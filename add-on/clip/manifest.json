@@ -4,10 +4,34 @@
   "version": "1.0.0",
   "notes": "FFmpeg n7.1.1, LGPL, remux only",
   "files": {
+    "android-arm64-v8a": {
+      "path": "bin/android-arm64-v8a/ffmpeg",
+      "sha256": "c0851f75318b2d537156aa8d6f5a80b6cd01b5d974703965e45db1de3bea52fb",
+      "size": 3405256,
+      "executable": true
+    },
+    "android-armeabi-v7a": {
+      "path": "bin/android-armeabi-v7a/ffmpeg",
+      "sha256": "8f3dde07a87891176780df0ad4497af3022c6f357a7848cd2208eeca0288fa9f",
+      "size": 3296784,
+      "executable": true
+    },
+    "android-x86_64": {
+      "path": "bin/android-x86_64/ffmpeg",
+      "sha256": "657c98349e570b548052453c6a71a4c50a63fb3f02e32657ccc017a0a38e7e34",
+      "size": 3798608,
+      "executable": true
+    },
     "linux-x64": {
       "path": "bin/linux-x64/ffmpeg",
       "sha256": "d24a9f8ab076493cd7be13eb771d835d6dc8fc5861322dd8fe0041cb25753710",
       "size": 3574648,
+      "executable": true
+    },
+    "windows-x64": {
+      "path": "bin/windows-x64/ffmpeg.exe",
+      "sha256": "1e725fb6269c29225b49a5bf3885ac12b5aa4f2631195b8cbb73469a8fdd5849",
+      "size": 3343360,
       "executable": true
     }
   }
