@@ -28,6 +28,12 @@
       "size": 3574648,
       "executable": true
     },
+    "macos-arm64": {
+      "path": "bin/macos-arm64/ffmpeg",
+      "sha256": "519d45c748eeca7d522949fb1619c704e08d75eb2f7fd80a09da248a2abc8aa7",
+      "size": 3180808,
+      "executable": true
+    },
     "macos-x64": {
       "path": "bin/macos-x64/ffmpeg",
       "sha256": "0a34c3c0e24c9d6212468025228ed1e80164ac3ecd5a001849d63bab8f4ec677",
@@ -36,7 +42,7 @@
     },
     "windows-x64": {
       "path": "bin/windows-x64/ffmpeg.exe",
-      "sha256": "7d9e5aa747def44058779bdb563e27eb5f54a11cce5de4ee1b813719ba84eb43",
+      "sha256": "5b9cd403da16cf34585f573196bc5f5bc7a1ff9a75a21b67704f4d65388773c6",
       "size": 3343360,
       "executable": true
     }
