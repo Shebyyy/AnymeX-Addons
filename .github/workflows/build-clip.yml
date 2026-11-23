@@ -27,7 +27,7 @@ jobs:
           - { target: android-armeabi-v7a,  os: ubuntu-24.04 }
           - { target: android-x86_64,       os: ubuntu-24.04 }
           - { target: windows-x64,          os: ubuntu-24.04 }
-          - { target: macos-arm64,          os: macos-14 }
+          - { target: macos-arm64,          os: macos-15 }
           - { target: macos-x64,            os: macos-15-intel }
     runs-on: ${{ matrix.os }}
     steps:
