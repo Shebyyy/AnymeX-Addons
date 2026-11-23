@@ -13,6 +13,7 @@
         "android-armeabi-v7a",
         "android-x86_64",
         "linux-x64",
+        "macos-x64",
         "windows-x64"
       ]
     }
