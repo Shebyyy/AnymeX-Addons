@@ -16,7 +16,9 @@ mkdir -p "$OUT"
 
 git clone --depth 1 --branch "$TAG" https://github.com/FFmpeg/FFmpeg.git "$WORK/ffmpeg"
 cd "$WORK/ffmpeg"
-mapfile -t FLAGS < <(grep -v '^#' "$HERE/configure-flags.txt" | grep -v '^$')
+# portable read (macOS ships bash 3.2, which has no mapfile)
+FLAGS=()
+while IFS= read -r line; do FLAGS+=("$line"); done < <(grep -v '^#' "$HERE/configure-flags.txt" | grep -v '^$')
 
 EXTRA=()
 EXE=ffmpeg
@@ -44,7 +46,7 @@ case "$TARGET" in
   *) echo "unknown TARGET $TARGET" >&2; exit 1 ;;
 esac
 
-./configure "${FLAGS[@]}" "${EXTRA[@]}"
+./configure "${FLAGS[@]}" ${EXTRA[@]+"${EXTRA[@]}"}
 make -j"$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo 2)" "$EXE"
 cp "$EXE" "$OUT/$EXE"
 case "$TARGET" in
